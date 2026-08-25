@@ -23,7 +23,7 @@ export default function UserCard({ user }: user) {
             </p>
           </div>
 
-          <div className="flex justify-around">
+          <div className="flex justify-between">
             <UserCardBtns />
           </div>
         </div>
