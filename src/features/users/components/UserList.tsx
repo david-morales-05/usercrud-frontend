@@ -3,11 +3,14 @@ import UserCard from "./UserCard";
 import { useEffect } from "react";
 
 export default function UserList() {
-  const { users, getDataUsers } = useUserStore();
+  const { users, loading, getDataUsers } = useUserStore();
 
   useEffect(() => {
     getDataUsers();
+    console.log("se muestra en pantalla");
   }, [getDataUsers]);
+
+  if (loading) return <p>cargando...</p>;
 
   return (
     <>

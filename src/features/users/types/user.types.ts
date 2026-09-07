@@ -7,3 +7,5 @@ export type User = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type UserBody = Omit<User, "_id" | "createdAt" | "updatedAt">;

@@ -1,11 +1,18 @@
 import { Plus, Trash2 } from "lucide-react";
 import { Button } from "@headlessui/react";
 
-export default function TopBtns() {
+type TopBtnsProps = {
+  setIsOpenCreate: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function TopBtns({ setIsOpenCreate }: TopBtnsProps) {
   return (
     <>
       <div className="flex justify-around my-12">
-        <Button className="flex bg-blue-600 text-white font-bold rounded-lg  px-2 py-1 gap-1.5 hover:-translate-y-0.5 hover:cursor-pointer hover:bg-blue-900">
+        <Button
+          onClick={() => setIsOpenCreate(true)}
+          className="flex bg-green-500 text-white font-bold rounded-lg  px-2 py-1 gap-1.5 hover:-translate-y-0.5 hover:cursor-pointer hover:bg-green-900"
+        >
           Crear Usuario <Plus />
         </Button>
 
