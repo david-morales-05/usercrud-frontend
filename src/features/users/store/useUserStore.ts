@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { userService } from "../services/userService";
-import type { User, UserBody } from "../types/user.types";
+import type { User, UserBody, UpdateUserBody } from "../types/user.types";
 
 type UserState = {
   users: User[];
@@ -8,6 +8,7 @@ type UserState = {
   isSubmitting: boolean;
   getDataUsers: () => Promise<void>;
   toCreateUser: (data: UserBody) => Promise<void>;
+  toUpdateUser: (data: UpdateUserBody, _id: string) => Promise<void>;
 };
 
 // type FieldValues = {
@@ -50,6 +51,26 @@ export const useUserStore = create<UserState>((set) => ({
       console.error("error al crear el usuario en el estore:", error);
     } finally {
       set({ isSubmitting: false });
+    }
+  },
+
+  toUpdateUser: async (data, _id) => {
+    set({ isSubmitting: true });
+
+    try {
+      const response = await userService.updateUser(data, _id);
+
+      if (response.success) {
+        set((state) => ({
+          users: state.users.map((user) =>
+            user._id === _id ? response.data : user,
+          ),
+        }));
+      }
+    } catch (error) {
+      console.error(error, "error al actualizar el usuario");
+    } finally {
+      set({ isSubmitting: true });
     }
   },
 }));
