@@ -28,7 +28,7 @@ export default function UserCard({ user }: user) {
           </div>
 
           <div className="flex justify-between">
-            <UserCardBtns setIsOpenEdit={setIsOpenEdit} />
+            <UserCardBtns setIsOpenEdit={setIsOpenEdit} user={user} />
           </div>
         </div>
       </motion.li>

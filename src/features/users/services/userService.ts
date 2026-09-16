@@ -26,4 +26,12 @@ export const userService = {
     console.log(response.data);
     return response.data;
   },
+
+  deleteUser: async (user: User): Promise<{ success: true; data: User }> => {
+    const response = await api.delete<{ success: true; data: User }>(
+      `/${user._id}`,
+    );
+
+    return response.data;
+  },
 };

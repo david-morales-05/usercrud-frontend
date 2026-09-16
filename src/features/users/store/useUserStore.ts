@@ -9,6 +9,7 @@ type UserState = {
   getDataUsers: () => Promise<void>;
   toCreateUser: (data: UserBody) => Promise<void>;
   toUpdateUser: (data: UpdateUserBody, _id: string) => Promise<void>;
+  toDeleteUser: (user: User) => void;
 };
 
 // type FieldValues = {
@@ -71,6 +72,20 @@ export const useUserStore = create<UserState>((set) => ({
       console.error(error, "error al actualizar el usuario");
     } finally {
       set({ isSubmitting: true });
+    }
+  },
+
+  toDeleteUser: async (data) => {
+    try {
+      const response = await userService.deleteUser(data);
+
+      if (response.success) {
+        set((state) => ({
+          users: state.users.filter((user) => user._id !== data._id),
+        }));
+      }
+    } catch (error) {
+      console.error("error al eliminar el usuario", error);
     }
   },
 }));
