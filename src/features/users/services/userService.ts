@@ -34,4 +34,12 @@ export const userService = {
 
     return response.data;
   },
+
+  getOneUser: async (user: User): Promise<{ success: true; data: User }> => {
+    const response = await api.get<{ success: true; data: User }>(
+      `/${user._id}`,
+    );
+
+    return response.data;
+  },
 };

@@ -3,6 +3,7 @@ import UserList from "./features/users/components/UserList";
 import TopBtns from "./components/ui/TopBtns";
 import { useState } from "react";
 import CreateDialogForm from "./components/ui/CreateDialogForm";
+
 function App() {
   const [isOpenCreate, setIsOpenCreate] = useState(false);
 
@@ -11,6 +12,7 @@ function App() {
       <NavBar />
       <main>
         <TopBtns setIsOpenCreate={setIsOpenCreate} />
+
         <CreateDialogForm
           isOpenCreate={isOpenCreate}
           setIsOpenCreate={setIsOpenCreate}

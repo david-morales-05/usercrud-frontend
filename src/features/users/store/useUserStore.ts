@@ -1,25 +1,29 @@
 import { create } from "zustand";
 import { userService } from "../services/userService";
 import type { User, UserBody, UpdateUserBody } from "../types/user.types";
+import UserDetails from "../../../components/ui/UserDetails";
 
 type UserState = {
   users: User[];
   loading: boolean;
   isSubmitting: boolean;
+  isOpenDetails: boolean;
+  userDetails: User[];
   getDataUsers: () => Promise<void>;
   toCreateUser: (data: UserBody) => Promise<void>;
   toUpdateUser: (data: UpdateUserBody, _id: string) => Promise<void>;
-  toDeleteUser: (user: User) => void;
+  toDeleteUser: (data: User) => void;
+  toConsultUser: (data: User) => Promise<void>;
+  openDetails: any;
+  closeDetails: any;
 };
-
-// type FieldValues = {
-//   fieldValues: FieldValues;
-// };
 
 export const useUserStore = create<UserState>((set) => ({
   users: [],
   loading: false,
   isSubmitting: false,
+  isOpenDetails: false,
+  userDetails: [],
 
   getDataUsers: async () => {
     set({ loading: true });
@@ -28,7 +32,6 @@ export const useUserStore = create<UserState>((set) => ({
       const response = await userService.getAllUsers();
       if (response.success) {
         set({ users: response.data });
-        console.log("se añade el nuevo usuario en el store");
       }
     } catch (error) {
       console.error("Error al cargar los usuarios", error);
@@ -46,7 +49,6 @@ export const useUserStore = create<UserState>((set) => ({
         set((state) => ({
           users: [...state.users, response.data],
         }));
-        console.log("Esta parte esta jalando!");
       }
     } catch (error) {
       console.error("error al crear el usuario en el estore:", error);
@@ -87,5 +89,42 @@ export const useUserStore = create<UserState>((set) => ({
     } catch (error) {
       console.error("error al eliminar el usuario", error);
     }
+  },
+
+  toConsultUser: async (data) => {
+    set({ loading: true });
+
+    try {
+      const response = await userService.getOneUser(data);
+
+      if (UserDetails.length > 0) {
+        set((state) => ({
+          userDetails: state.userDetails.filter(
+            (user) => user._id === data._id,
+          ),
+        }));
+      }
+      if (response.success) {
+        set((state) => ({
+          userDetails: [...state.userDetails, data],
+        }));
+      }
+    } catch (error) {
+      console.error(error, "error al traer al traer los detalles del usuario ");
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  openDetails: () => {
+    set((state) => ({
+      isOpenDetails: (state.isOpenDetails = true),
+    }));
+  },
+
+  closeDetails: () => {
+    set((state) => ({
+      isOpenDetails: (state.isOpenDetails = false),
+    }));
   },
 }));

@@ -7,7 +7,6 @@ export default function UserList() {
 
   useEffect(() => {
     getDataUsers();
-    console.log("se muestra en pantalla");
   }, [getDataUsers]);
 
   if (loading) return <p>cargando...</p>;

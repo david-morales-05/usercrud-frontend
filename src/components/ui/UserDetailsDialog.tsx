@@ -1,32 +1,26 @@
 import { Dialog, DialogPanel } from "@headlessui/react";
-import { motion, AnimatePresence } from "framer-motion";
-import EditForm from "./EditForm";
-import type { User } from "../../features/users/types/user.types";
+import { AnimatePresence, motion } from "motion/react";
+import UserDetails from "./UserDetails";
 
-type EditDialogFormProps = {
-  isOpenEdit: boolean;
-  setIsOpenEdit: React.Dispatch<React.SetStateAction<boolean>>;
-  user: User;
+type UserDetailsDialogProps = {
+  isOpenDetails: boolean;
+  closeDetails: any;
 };
 
-export default function EditDialogForm({
-  isOpenEdit,
-  setIsOpenEdit,
-  user,
-}: EditDialogFormProps) {
-  const cancelEdit = () => {
-    setIsOpenEdit(false);
-  };
-
+export default function UserDetailsDialog({
+  isOpenDetails,
+  closeDetails,
+}: UserDetailsDialogProps) {
   return (
     <>
       <AnimatePresence>
-        {isOpenEdit && (
+        {isOpenDetails && (
           <Dialog
             static
-            open={isOpenEdit}
-            onClose={() => cancelEdit()}
+            open={isOpenDetails}
+            onClose={closeDetails}
             className="relative z-10"
+            autoFocus={false}
           >
             <motion.div
               initial={{ opacity: 0 }}
@@ -42,7 +36,10 @@ export default function EditDialogForm({
                   exit={{ opacity: 0, scale: 0.95 }}
                   className="w-lg space-y-4 bg-white p-12 rounded-2xl "
                 >
-                  <EditForm setIsOpenEdit={setIsOpenEdit} user={user} />
+                  <UserDetails
+                    closeDetails={closeDetails}
+                    // toConsultUser={toConsultUser}
+                  />
                 </DialogPanel>
               </div>
             </motion.div>
